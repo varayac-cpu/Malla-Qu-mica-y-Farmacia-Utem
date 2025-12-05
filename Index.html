@@ -1,2 +1,615 @@
-# Malla-Qu-mica-y-Farmacia-Utem
-Malla QyF con todos los prerrequisito.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Malla Química y Farmacia – UTEM</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Malla Curricular Interactiva</h1>
+    <p>Química y Farmacia – UTEM</p>
+    <p class="subheader">Haz clic en cada ramo para ver créditos y prerrequisitos.</p>
+  </header>
+
+  <main>
+
+    <!-- ========== PRIMER AÑO ========== -->
+    <section class="anio">
+      <h2>Primer Año</h2>
+
+      <h3>Primer semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('MATO8001')">
+          <h4>MATO8001 Álgebra pre cálculo</h4>
+          <p class="sem">1° año · 1° semestre</p>
+          <div id="MATO8001" class="detalle">
+            <p><strong>Créditos:</strong> 7</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIB4011')">
+          <h4>QUIB4011 Química General I</h4>
+          <p class="sem">1° año · 1° semestre</p>
+          <div id="QUIB4011" class="detalle">
+            <p><strong>Créditos:</strong> 8</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('INFC0001')">
+          <h4>INFC0001 Computación Aplicada</h4>
+          <p class="sem">1° año · 1° semestre</p>
+          <div id="INFC0001" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('NIV9010')">
+          <h4>NIV9010 Habilidad de razonamiento lógico</h4>
+          <p class="sem">1° año · 1° semestre</p>
+          <div id="NIV9010" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8001')">
+          <h4>QUIO8001 Introducción a las ciencias Farmacéuticas</h4>
+          <p class="sem">1° año · 1° semestre</p>
+          <div id="QUIO8001" class="detalle">
+            <p><strong>Créditos:</strong> 3</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno</p>
+          </div>
+        </div>
+
+      </div>
+
+      <h3>Segundo semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('BTAO0001')">
+          <h4>BTAO0001 Biología Celular</h4>
+          <p class="sem">1° año · 2° semestre</p>
+          <div id="BTAO0001" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('FISIO8001')">
+          <h4>FISIO8001 Física</h4>
+          <p class="sem">1° año · 2° semestre</p>
+          <div id="FISIO8001" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('MATO8003')">
+          <h4>MATO8003 Cálculo</h4>
+          <p class="sem">1° año · 2° semestre</p>
+          <div id="MATO8003" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> MATO8001 Álgebra pre cálculo</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIB4020')">
+          <h4>QUIB4020 Química General II</h4>
+          <p class="sem">1° año · 2° semestre</p>
+          <div id="QUIB4020" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIB4011 Química General I</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('NIVB9020')">
+          <h4>NIVB9020 Habilidades de trabajo académico</h4>
+          <p class="sem">1° año · 2° semestre</p>
+          <div id="NIVB9020" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== SEGUNDO AÑO ========== -->
+    <section class="anio">
+      <h2>Segundo Año</h2>
+
+      <h3>Primer semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('ESTO8001')">
+          <h4>ESTO8001 Bioestadística</h4>
+          <p class="sem">2° año · 1° semestre</p>
+          <div id="ESTO8001" class="detalle">
+            <p><strong>Créditos:</strong> 5</p>
+            <p><strong>Prerrequisitos:</strong> MATO8001 Álgebra pre cálculo</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8004')">
+          <h4>QUIO8004 Fisicoquímica</h4>
+          <p class="sem">2° año · 1° semestre</p>
+          <div id="QUIO8004" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> FISIO8001 Física</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('INFO8006')">
+          <h4>INFO8006 Transformación Digital</h4>
+          <p class="sem">2° año · 1° semestre</p>
+          <div id="INFO8006" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> INFC0001 Computación Aplicada</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8002')">
+          <h4>QUIO8002 Química Orgánica I</h4>
+          <p class="sem">2° año · 1° semestre</p>
+          <div id="QUIO8002" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIB4020 Química General II</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8003')">
+          <h4>QUIO8003 Anatomofisiología</h4>
+          <p class="sem">2° año · 1° semestre</p>
+          <div id="QUIO8003" class="detalle">
+            <p><strong>Créditos:</strong> 5</p>
+            <p><strong>Prerrequisitos:</strong> BTAO0001 Biología Celular</p>
+          </div>
+        </div>
+
+      </div>
+
+      <h3>Segundo semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8007')">
+          <h4>QUIO8007 Química Analítica</h4>
+          <p class="sem">2° año · 2° semestre</p>
+          <div id="QUIO8007" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIB4020 Química General II</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('BTAO0002')">
+          <h4>BTAO0002 Bioquímica</h4>
+          <p class="sem">2° año · 2° semestre</p>
+          <div id="BTAO0002" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> BTAO0001 Biología Celular</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8008')">
+          <h4>QUIO8008 Fisiopatología</h4>
+          <p class="sem">2° año · 2° semestre</p>
+          <div id="QUIO8008" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8003 Anatomofisiología</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8005')">
+          <h4>QUIO8005 Farmacognosia y Fitoterapia</h4>
+          <p class="sem">2° año · 2° semestre</p>
+          <div id="QUIO8005" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8002 Química Orgánica I</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8006')">
+          <h4>QUIO8006 Química Orgánica II</h4>
+          <p class="sem">2° año · 2° semestre</p>
+          <div id="QUIO8006" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8002 Química Orgánica I</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== TERCER AÑO ========== -->
+    <section class="anio">
+      <h2>Tercer Año</h2>
+
+      <h3>Primer semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8009')">
+          <h4>QUIO8009 Farmacoquímica I</h4>
+          <p class="sem">3° año · 1° semestre</p>
+          <div id="QUIO8009" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8005 Farmacognosia y Fitoterapia</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8010')">
+          <h4>QUIO8010 Farmacología I</h4>
+          <p class="sem">3° año · 1° semestre</p>
+          <div id="QUIO8010" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8005 Farmacognosia y Fitoterapia</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('BTAO0003')">
+          <h4>BTAO0003 Microbiología</h4>
+          <p class="sem">3° año · 1° semestre</p>
+          <div id="BTAO0003" class="detalle">
+            <p><strong>Créditos:</strong> 7</p>
+            <p><strong>Prerrequisitos:</strong> BTAO0002 Bioquímica</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8011')">
+          <h4>QUIO8011 Análisis Instrumental</h4>
+          <p class="sem">3° año · 1° semestre</p>
+          <div id="QUIO8011" class="detalle">
+            <p><strong>Créditos:</strong> 5</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8007 Química Analítica</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8012')">
+          <h4>QUIO8012 Operaciones Unitarias</h4>
+          <p class="sem">3° año · 1° semestre</p>
+          <div id="QUIO8012" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8004 Fisicoquímica</p>
+          </div>
+        </div>
+
+      </div>
+
+      <h3>Segundo semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8014')">
+          <h4>QUIO8014 Farmacología II</h4>
+          <p class="sem">3° año · 2° semestre</p>
+          <div id="QUIO8014" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8010 Farmacología I</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8015')">
+          <h4>QUIO8015 Salud pública y epidemiología</h4>
+          <p class="sem">3° año · 2° semestre</p>
+          <div id="QUIO8015" class="detalle">
+            <p><strong>Créditos:</strong> 5</p>
+            <p><strong>Prerrequisitos:</strong> ESTO8001 Bioestadística</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIP8001')">
+          <h4>QUIP8001 Práctica A+S</h4>
+          <p class="sem">3° año · 2° semestre</p>
+          <div id="QUIP8001" class="detalle">
+            <p><strong>Créditos:</strong> 8</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8009, QUIO8010, BTAO0003, QUIO8011, QUIO8012</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8016')">
+          <h4>QUIO8016 Bioquímica clínica</h4>
+          <p class="sem">3° año · 2° semestre</p>
+          <div id="QUIO8016" class="detalle">
+            <p><strong>Créditos:</strong> 5</p>
+            <p><strong>Prerrequisitos:</strong> BTAO0002 Bioquímica</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8013')">
+          <h4>QUIO8013 Farmacoquímica II</h4>
+          <p class="sem">3° año · 2° semestre</p>
+          <div id="QUIO8013" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8009 Farmacoquímica I</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== CUARTO AÑO ========== -->
+    <section class="anio">
+      <h2>Cuarto Año</h2>
+
+      <h3>Primer semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8020')">
+          <h4>QUIO8020 Administración y gestión estratégica</h4>
+          <p class="sem">4° año · 1° semestre</p>
+          <div id="QUIO8020" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno explícito en malla</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8021')">
+          <h4>QUIO8021 Farmacotecnia I</h4>
+          <p class="sem">4° año · 1° semestre</p>
+          <div id="QUIO8021" class="detalle">
+            <p><strong>Créditos:</strong> 8</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8013 Farmacoquímica II</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8017')">
+          <h4>QUIO8017 Nutrición y Alimentos</h4>
+          <p class="sem">4° año · 1° semestre</p>
+          <div id="QUIO8017" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> BTAO0003 Microbiología</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8018')">
+          <h4>QUIO8018 Toxicología</h4>
+          <p class="sem">4° año · 1° semestre</p>
+          <div id="QUIO8018" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8014 Farmacología II</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8019')">
+          <h4>QUIO8019 Ética y legislación farmacéutica</h4>
+          <p class="sem">4° año · 1° semestre</p>
+          <div id="QUIO8019" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> Ninguno explícito en malla</p>
+          </div>
+        </div>
+
+      </div>
+
+      <h3>Segundo semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8025')">
+          <h4>QUIO8025 Farmacotecnia II</h4>
+          <p class="sem">4° año · 2° semestre</p>
+          <div id="QUIO8025" class="detalle">
+            <p><strong>Créditos:</strong> 8</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8021 Farmacotecnia I</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8024')">
+          <h4>QUIO8024 Farmacia Asistencial</h4>
+          <p class="sem">4° año · 2° semestre</p>
+          <div id="QUIO8024" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8018 Toxicología</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8022')">
+          <h4>QUIO8022 Biotecnología Farmacéutica</h4>
+          <p class="sem">4° año · 2° semestre</p>
+          <div id="QUIO8022" class="detalle">
+            <p><strong>Créditos:</strong> 6</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8016 Bioquímica clínica</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIE901X')">
+          <h4>QUIE901X Electivo de Profundización – Articulación I</h4>
+          <p class="sem">4° año · 2° semestre</p>
+          <div id="QUIE901X" class="detalle">
+            <p><strong>Créditos:</strong> (según plan)</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8013, QUIO8014, QUIO8015, QUIO8016, QUIP8001</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8023')">
+          <h4>QUIO8023 Tecnología Cosmética</h4>
+          <p class="sem">4° año · 2° semestre</p>
+          <div id="QUIO8023" class="detalle">
+            <p><strong>Créditos:</strong> (según plan)</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8021 Farmacotecnia I</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== QUINTO AÑO ========== -->
+    <section class="anio">
+      <h2>Quinto Año</h2>
+
+      <h3>Primer semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('QUIE902X')">
+          <h4>QUIE902X Electivo de Profundización – Articulación II</h4>
+          <p class="sem">5° año · 1° semestre</p>
+          <div id="QUIE902X" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8017, QUIO8018, QUIO8019, QUIO8020, QUIO8021</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIP8002')">
+          <h4>QUIP8002 Práctica III Profesional</h4>
+          <p class="sem">5° año · 1° semestre</p>
+          <div id="QUIP8002" class="detalle">
+            <p><strong>Créditos:</strong> (según plan)</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8025, QUIO8022, QUIE901X, QUIO8023, QUIO8024</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8026')">
+          <h4>QUIO8026 Farmacia Clínica</h4>
+          <p class="sem">5° año · 1° semestre</p>
+          <div id="QUIO8026" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8024 Farmacia Asistencial</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIO8027')">
+          <h4>QUIO8027 Farmacia Veterinaria</h4>
+          <p class="sem">5° año · 1° semestre</p>
+          <div id="QUIO8027" class="detalle">
+            <p><strong>Créditos:</strong> 3</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8024 Farmacia Asistencial</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIT8001')">
+          <h4>QUIT8001 Trabajo de Título I</h4>
+          <p class="sem">5° año · 1° semestre</p>
+          <div id="QUIT8001" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8022, QUIE901X, QUIO8023, QUIO8024, QUIO8025</p>
+          </div>
+        </div>
+
+      </div>
+
+      <h3>Segundo semestre</h3>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('QUIT8002')">
+          <h4>QUIT8002 Trabajo de Título II</h4>
+          <p class="sem">5° año · 2° semestre</p>
+          <div id="QUIT8002" class="detalle">
+            <p><strong>Créditos:</strong> 18</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8026, QUIO8027, QUIE902X, QUIT8001, QUIP8002</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('FITCXX06')">
+          <h4>FITCXX06 Taller de Empleabilidad</h4>
+          <p class="sem">5° año · 2° semestre</p>
+          <div id="FITCXX06" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> QUIO8026, QUIO8027, QUIE902X, QUIT8001, QUIP8002</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('QUIE903X')">
+          <h4>QUIE903X Electivo de Profundización – Articulación III</h4>
+          <p class="sem">5° año · 2° semestre</p>
+          <div id="QUIE903X" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> No especificados explícitamente</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== ELECTIVOS OBLIGATORIOS ========== -->
+    <section class="anio">
+      <h2>Electivos obligatorios institucionales</h2>
+      <div class="grid">
+
+        <div class="ramo" onclick="toggleDetalle('FITCXX01')">
+          <h4>FITCXX01 Vida y Bienestar</h4>
+          <div id="FITCXX01" class="detalle">
+            <p><strong>Créditos:</strong> 2</p>
+            <p><strong>Prerrequisitos:</strong> No especificados</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('HUMC4X01')">
+          <h4>HUMC4X01 Globalización I</h4>
+          <div id="HUMC4X01" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> No especificados</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('HUMC4X02')">
+          <h4>HUMC4X02 Globalización II</h4>
+          <div id="HUMC4X02" class="detalle">
+            <p><strong>Créditos:</strong> 4</p>
+            <p><strong>Prerrequisitos:</strong> HUMC4X01 Globalización I</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('FITCX203')">
+          <h4>FITCX203 Equidad de género</h4>
+          <div id="FITCX203" class="detalle">
+            <p><strong>Créditos:</strong> 2</p>
+            <p><strong>Prerrequisitos:</strong> No especificados</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('FITCX101')">
+          <h4>FITCX101 SSTRS Módulo 1</h4>
+          <p class="sem">Sellos: sustentabilidad y tecnología con responsabilidad social</p>
+          <div id="FITCX101" class="detalle">
+            <p><strong>Créditos:</strong> 2</p>
+            <p><strong>Prerrequisitos:</strong> No especificados</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('FITCX102')">
+          <h4>FITCX102 SSTRS Módulo 2</h4>
+          <div id="FITCX102" class="detalle">
+            <p><strong>Créditos:</strong> 2</p>
+            <p><strong>Prerrequisitos:</strong> FITCX101 SSTRS Módulo 1</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('FITCX103')">
+          <h4>FITCX103 SSTRS Módulo 3</h4>
+          <div id="FITCX103" class="detalle">
+            <p><strong>Créditos:</strong> 2</p>
+            <p><strong>Prerrequisitos:</strong> FITCX102 SSTRS Módulo 2</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('FITCX201')">
+          <h4>FITCX201 Ciudadanía y Derechos Humanos I</h4>
+          <div id="FITCX201" class="detalle">
+            <p><strong>Créditos:</strong> 2</p>
+            <p><strong>Prerrequisitos:</strong> No especificados</p>
+          </div>
+        </div>
+
+        <div class="ramo" onclick="toggleDetalle('FITCX202')">
+          <h4>FITCX202 Ciudadanía y Derechos Humanos II</h4>
+          <div id="FITCX202" class="detalle">
+            <p><strong>Créditos:</strong> 2</p>
+            <p><strong>Prerrequisitos:</strong> FITCX201 Ciudadanía y Derechos Humanos I</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Malla basada en documento oficial UTEM (referencia interna).</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
