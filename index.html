@@ -15,6 +15,26 @@
     <p>Química y Farmacia – UTEM</p>
     <p class="subheader">Haz clic en cada ramo para ver créditos y prerrequisitos.</p>
   </header>
+  
+    <section id="controles">
+    <div class="control">
+      <label for="filtro-estado">Mostrar:</label>
+      <select id="filtro-estado">
+        <option value="todos">Todos</option>
+        <option value="aprobado">Solo aprobados</option>
+        <option value="cursando">Solo cursando</option>
+        <option value="pendiente">Solo pendientes</option>
+        <option value="bloqueado">Solo bloqueados</option>
+      </select>
+    </div>
+
+    <div class="control">
+      <button id="btn-guardar" type="button">Guardar progreso</button>
+      <button id="btn-borrar" type="button">Borrar progreso</button>
+      <button id="btn-exportar" type="button">Exportar avances</button>
+    </div>
+  </section>
+  
   <main>
 
     <!-- ========== PRIMER AÑO ========== -->
