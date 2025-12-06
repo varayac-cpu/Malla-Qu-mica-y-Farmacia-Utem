@@ -221,3 +221,15 @@ footer {
   border-color: #0284c7;
 }
 
+.control input[type="text"] {
+  padding: 3px 6px;
+  border-radius: 999px;
+  border: 1px solid #bae6fd;
+  font-size: 0.85rem;
+}
+
+#perfil-actual-label {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
