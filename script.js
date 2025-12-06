@@ -1,14 +1,13 @@
-// =========================
-// 1. Estados de los ramos
-// =========================
-// Todos parten como "pendiente" si no están en esta lista.
-// Tú no tienes que editar nada aquí: al hacer clic, se actualiza solo.
+// Clave para guardar en el navegador
+const STORAGE_KEY = "malla-qyf-estado-v1";
 
-const courseStatus = {};
+// Objeto donde se guarda el estado de cada ramo
+// { MATO8001: { estado: "aprobado" }, ... }
+let courseStatus = {};
 
 
 // =========================
-// 2. Prerrequisitos
+// 1. PRERREQUISITOS
 // =========================
 
 const prereqs = {
@@ -61,11 +60,11 @@ const prereqs = {
 
 
 // =========================
-// 3. Cambia estado al hacer clic
+// 2. CAMBIO DE ESTADO
 // =========================
 
+// Ciclo: pendiente → cursando → aprobado → pendiente
 function cambiarEstado(codigo) {
-  const estados = ["pendiente", "cursando", "aprobado"];
   const actual = courseStatus[codigo]?.estado || "pendiente";
 
   let nuevoEstado;
@@ -75,19 +74,45 @@ function cambiarEstado(codigo) {
 
   courseStatus[codigo] = { estado: nuevoEstado };
 
+  guardarProgresoLocal();
   actualizarTodo();
+  aplicarFiltros();
 }
 
 
 // =========================
-// 4. Aplica color según estado
+// 3. DETALLE (abre/cierra caja)
+//    + dispara cambio de estado
+// =========================
+
+function toggleDetalle(codigo) {
+  // Cambia de estado cada vez que hago clic
+  cambiarEstado(codigo);
+
+  const el = document.getElementById(codigo);
+  if (!el) return;
+
+  const seccion = el.closest(".anio");
+  if (seccion) {
+    seccion.querySelectorAll(".detalle").forEach(d => {
+      if (d !== el) d.style.display = "none";
+    });
+  }
+
+  el.style.display = el.style.display === "block" ? "none" : "block";
+}
+
+
+// =========================
+// 4. APLICAR COLORES
 // =========================
 
 function aplicarEstados() {
   const cards = document.querySelectorAll(".ramo");
 
   cards.forEach(card => {
-    const codigo = card.dataset.codigo;
+    const codigo = obtenerCodigoDesdeCard(card);
+    if (!codigo) return;
 
     const estado = courseStatus[codigo]?.estado || "pendiente";
     card.dataset.estado = estado;
@@ -97,30 +122,34 @@ function aplicarEstados() {
       "estado-cursando",
       "estado-pendiente"
     );
-
     card.classList.add(`estado-${estado}`);
+
+    card.title = `Estado: ${estado}`;
   });
 }
 
 
 // =========================
-// 5. Bloquea / desbloquea según prerrequisitos
+// 5. BLOQUEOS POR PRERREQUISITOS
 // =========================
 
 function aplicarBloqueos() {
   const cards = document.querySelectorAll(".ramo");
 
   cards.forEach(card => {
-    const codigo = card.dataset.codigo;
-    const requisitos = prereqs[codigo] || [];
+    const codigo = obtenerCodigoDesdeCard(card);
+    if (!codigo) return;
 
+    const requisitos = prereqs[codigo] || [];
     card.classList.remove("bloqueado");
 
     if (requisitos.length === 0) return;
 
-    const todosOk = requisitos.every(r => courseStatus[r]?.estado === "aprobado");
+    const todosAprobados = requisitos.every(
+      r => courseStatus[r]?.estado === "aprobado"
+    );
 
-    if (!todosOk) {
+    if (!todosAprobados) {
       card.classList.add("bloqueado");
     }
   });
@@ -128,7 +157,95 @@ function aplicarBloqueos() {
 
 
 // =========================
-// 6. Actualiza todo
+// 6. FILTRO DEL MENÚ
+// =========================
+
+function aplicarFiltros() {
+  const select = document.getElementById("filtro-estado");
+  if (!select) return;
+
+  const filtro = select.value; // todos, aprobado, cursando, pendiente, bloqueado
+
+  const cards = document.querySelectorAll(".ramo");
+  cards.forEach(card => {
+    const estado = card.dataset.estado || "pendiente";
+    const esBloqueado = card.classList.contains("bloqueado");
+
+    let visible = true;
+
+    if (filtro === "bloqueado") {
+      visible = esBloqueado;
+    } else if (filtro !== "todos") {
+      visible = estado === filtro;
+    }
+
+    card.style.display = visible ? "" : "none";
+  });
+}
+
+
+// =========================
+// 7. GUARDAR / CARGAR / EXPORTAR
+// =========================
+
+function guardarProgresoLocal() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(courseStatus));
+  } catch (e) {
+    console.warn("No se pudo guardar el progreso:", e);
+  }
+}
+
+function cargarProgresoLocal() {
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (data) {
+      courseStatus = JSON.parse(data);
+    }
+  } catch (e) {
+    console.warn("No se pudo cargar el progreso:", e);
+    courseStatus = {};
+  }
+}
+
+function borrarProgreso() {
+  localStorage.removeItem(STORAGE_KEY);
+  courseStatus = {};
+  actualizarTodo();
+  aplicarFiltros();
+  alert("Progreso borrado en este navegador.");
+}
+
+function exportarProgreso() {
+  const dataStr = JSON.stringify(courseStatus, null, 2);
+  const blob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "malla_qyf_progreso.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+
+// =========================
+// 8. UTILIDAD: sacar código de la card
+// =========================
+
+function obtenerCodigoDesdeCard(card) {
+  const h4 = card.querySelector("h4");
+  if (!h4) return null;
+  // primera palabra del título: "MATO8001 Álgebra pre cálculo"
+  return h4.innerText.trim().split(" ")[0];
+}
+
+
+// =========================
+// 9. INICIALIZACIÓN
 // =========================
 
 function actualizarTodo() {
@@ -136,21 +253,27 @@ function actualizarTodo() {
   aplicarBloqueos();
 }
 
-
-// =========================
-// 7. Inicializa
-// =========================
-
 document.addEventListener("DOMContentLoaded", () => {
-  const cards = document.querySelectorAll(".ramo");
+  // Cargar progreso guardado
+  cargarProgresoLocal();
 
-  cards.forEach(card => {
-    const codigo = card.querySelector("h4").innerText.split(" ")[0];
-    card.dataset.codigo = codigo;
+  // Marcar estado inicial y bloqueos
+  actualizarTodo();
+  aplicarFiltros();
 
-    // clic para cambiar estado
-    card.addEventListener("click", () => cambiarEstado(codigo));
+  // Menú
+  const filtro = document.getElementById("filtro-estado");
+  if (filtro) filtro.addEventListener("change", aplicarFiltros);
+
+  const btnGuardar = document.getElementById("btn-guardar");
+  if (btnGuardar) btnGuardar.addEventListener("click", () => {
+    guardarProgresoLocal();
+    alert("Progreso guardado en este navegador 👍");
   });
 
-  actualizarTodo();
+  const btnBorrar = document.getElementById("btn-borrar");
+  if (btnBorrar) btnBorrar.addEventListener("click", borrarProgreso);
+
+  const btnExportar = document.getElementById("btn-exportar");
+  if (btnExportar) btnExportar.addEventListener("click", exportarProgreso);
 });
