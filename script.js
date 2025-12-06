@@ -1,19 +1,16 @@
-// ==== 1. Estados de los ramos ====
-// Solo marcas si está aprobado, cursando o pendiente.
-// Ejemplo real: solo cambias "estado" cuando pases el ramo.
-const courseStatus = {
-  MATO8001: { estado: "aprobado" },
-  QUIB4011: { estado: "aprobado" },
-  INFC0001: { estado: "aprobado" },
-  NIV9010:  { estado: "aprobado" },
-  QUIO8001: { estado: "aprobado" },
+// =========================
+// 1. Estados de los ramos
+// =========================
+// Todos parten como "pendiente" si no están en esta lista.
+// Tú no tienes que editar nada aquí: al hacer clic, se actualiza solo.
 
-  // Puedes agregar más:
-  // QUIB4020: { estado: "cursando" },
-  // MATO8003: { estado: "pendiente" },
-};
+const courseStatus = {};
 
-// ==== 2. Prerrequisitos de cada ramo ====
+
+// =========================
+// 2. Prerrequisitos
+// =========================
+
 const prereqs = {
   MATO8003: ["MATO8001"],
   QUIB4020: ["QUIB4011"],
@@ -62,92 +59,98 @@ const prereqs = {
   FITCX202: ["FITCX201"],
 };
 
-// ==== 3. Abrir detalle ====
-function toggleDetalle(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
 
-  const parentSection = el.closest(".anio");
-  if (parentSection) {
-    parentSection.querySelectorAll(".detalle").forEach(d => {
-      if (d.id !== id) d.style.display = "none";
-    });
-  }
+// =========================
+// 3. Cambia estado al hacer clic
+// =========================
 
-  el.style.display = el.style.display === "block" ? "none" : "block";
+function cambiarEstado(codigo) {
+  const estados = ["pendiente", "cursando", "aprobado"];
+  const actual = courseStatus[codigo]?.estado || "pendiente";
+
+  let nuevoEstado;
+  if (actual === "pendiente") nuevoEstado = "cursando";
+  else if (actual === "cursando") nuevoEstado = "aprobado";
+  else nuevoEstado = "pendiente";
+
+  courseStatus[codigo] = { estado: nuevoEstado };
+
+  actualizarTodo();
 }
 
-// ==== 4. Aplicar colores según estado ====
+
+// =========================
+// 4. Aplica color según estado
+// =========================
+
 function aplicarEstados() {
   const cards = document.querySelectorAll(".ramo");
 
   cards.forEach(card => {
     const codigo = card.dataset.codigo;
-    const info = courseStatus[codigo];
-    let estado = "pendiente";
 
-    if (info && info.estado) estado = info.estado;
-
+    const estado = courseStatus[codigo]?.estado || "pendiente";
     card.dataset.estado = estado;
 
-    card.classList.remove("estado-aprobado", "estado-cursando", "estado-pendiente");
-    card.classList.add(`estado-${estado}`);
+    card.classList.remove(
+      "estado-aprobado",
+      "estado-cursando",
+      "estado-pendiente"
+    );
 
-    card.title = `Estado: ${estado}`;
+    card.classList.add(`estado-${estado}`);
   });
 }
 
-// ==== 5. Bloquear / desbloquear por prerrequisitos ====
+
+// =========================
+// 5. Bloquea / desbloquea según prerrequisitos
+// =========================
+
 function aplicarBloqueos() {
   const cards = document.querySelectorAll(".ramo");
 
   cards.forEach(card => {
     const codigo = card.dataset.codigo;
     const requisitos = prereqs[codigo] || [];
+
     card.classList.remove("bloqueado");
 
     if (requisitos.length === 0) return;
 
-    let todosAprobados = true;
+    const todosOk = requisitos.every(r => courseStatus[r]?.estado === "aprobado");
 
-    for (const req of requisitos) {
-      const data = courseStatus[req];
-      if (!data || data.estado !== "aprobado") {
-        todosAprobados = false;
-        break;
-      }
+    if (!todosOk) {
+      card.classList.add("bloqueado");
     }
-
-    if (!todosAprobados) card.classList.add("bloqueado");
   });
 }
 
-// ==== 6. Filtros ====
-function aplicarFiltros() {
-  const filtroAnio = document.getElementById("filtro-anio");
-  const filtroEstado = document.getElementById("filtro-estado");
 
-  const anioSeleccionado = filtroAnio.value;
-  const estadoSeleccionado = filtroEstado.value;
+// =========================
+// 6. Actualiza todo
+// =========================
 
-  const cards = document.querySelectorAll(".ramo");
-  cards.forEach(card => {
-    const a = card.dataset.anio;
-    const e = card.dataset.estado;
-
-    const okAnio = (anioSeleccionado === "todos" || a === anioSeleccionado);
-    const okEstado = (estadoSeleccionado === "todos" || e === estadoSeleccionado);
-
-    card.style.display = (okAnio && okEstado) ? "" : "none";
-  });
-}
-
-// ==== 7. Inicializar ====
-document.addEventListener("DOMContentLoaded", () => {
+function actualizarTodo() {
   aplicarEstados();
   aplicarBloqueos();
-  aplicarFiltros();
+}
 
-  document.getElementById("filtro-anio").addEventListener("change", aplicarFiltros);
-  document.getElementById("filtro-estado").addEventListener("change", aplicarFiltros);
+
+// =========================
+// 7. Inicializa
+// =========================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".ramo");
+
+  cards.forEach(card => {
+    const codigo = card.querySelector("h4").innerText.split(" ")[0];
+    card.dataset.codigo = codigo;
+
+    // clic para cambiar estado
+    card.addEventListener("click", () => cambiarEstado(codigo));
+  });
+
+  actualizarTodo();
 });
