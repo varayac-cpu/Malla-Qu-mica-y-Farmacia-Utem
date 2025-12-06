@@ -1,13 +1,25 @@
-// Clave para guardar en el navegador
-const STORAGE_KEY = "malla-qyf-estado-v1";
+// =========================
+// CONFIGURACIÓN DE PERFILES
+// =========================
 
-// Objeto donde se guarda el estado de cada ramo
-// { MATO8001: { estado: "aprobado" }, ... }
-let courseStatus = {};
+// En localStorage vamos a guardar un objeto así:
+// {
+//   perfiles: {
+//     "Fernanda": { MATO8001: {estado:"aprobado"}, ... },
+//     "Juan": {...}
+//   },
+//   ultimoPerfil: "Fernanda"
+// }
+
+const STORAGE_KEY = "malla-qyf-perfiles-v1";
+
+let perfiles = {};        // todos los perfiles
+let perfilActual = "Invitado"; // nombre del perfil activo
+let courseStatus = {};    // estado de la malla del perfil activo
 
 
 // =========================
-// 1. PRERREQUISITOS
+// PRERREQUISITOS
 // =========================
 
 const prereqs = {
@@ -60,10 +72,63 @@ const prereqs = {
 
 
 // =========================
-// 2. CAMBIO DE ESTADO
+// UTILIDADES DE PERFIL
 // =========================
 
-// Ciclo: pendiente → cursando → aprobado → pendiente
+function actualizarEtiquetaPerfil() {
+  const span = document.getElementById("perfil-actual-label");
+  if (span) {
+    span.textContent = perfilActual ? `Perfil actual: ${perfilActual}` : "";
+  }
+}
+
+function cargarDesdePerfiles(nombre) {
+  perfilActual = nombre || "Invitado";
+  courseStatus = perfiles[perfilActual] || {};
+  actualizarEtiquetaPerfil();
+  actualizarTodo();
+  aplicarFiltros();
+}
+
+function guardarEnPerfiles() {
+  perfiles[perfilActual] = courseStatus;
+  const data = {
+    perfiles,
+    ultimoPerfil: perfilActual,
+  };
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.warn("No se pudo guardar en localStorage", e);
+  }
+}
+
+function cargarPerfiles() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      perfiles = {};
+      perfilActual = "Invitado";
+      courseStatus = {};
+      return;
+    }
+    const data = JSON.parse(raw);
+    perfiles = data.perfiles || {};
+    perfilActual = data.ultimoPerfil || "Invitado";
+    courseStatus = perfiles[perfilActual] || {};
+  } catch (e) {
+    console.warn("No se pudo cargar desde localStorage", e);
+    perfiles = {};
+    perfilActual = "Invitado";
+    courseStatus = {};
+  }
+}
+
+
+// =========================
+// CAMBIO DE ESTADO
+// =========================
+
 function cambiarEstado(codigo) {
   const actual = courseStatus[codigo]?.estado || "pendiente";
 
@@ -74,19 +139,17 @@ function cambiarEstado(codigo) {
 
   courseStatus[codigo] = { estado: nuevoEstado };
 
-  guardarProgresoLocal();
+  guardarEnPerfiles();
   actualizarTodo();
   aplicarFiltros();
 }
 
 
 // =========================
-// 3. DETALLE (abre/cierra caja)
-//    + dispara cambio de estado
+// DETALLE (abre/cierra)
 // =========================
 
 function toggleDetalle(codigo) {
-  // Cambia de estado cada vez que hago clic
   cambiarEstado(codigo);
 
   const el = document.getElementById(codigo);
@@ -104,8 +167,14 @@ function toggleDetalle(codigo) {
 
 
 // =========================
-// 4. APLICAR COLORES
+// ESTADOS VISUALES
 // =========================
+
+function obtenerCodigoDesdeCard(card) {
+  const h4 = card.querySelector("h4");
+  if (!h4) return null;
+  return h4.innerText.trim().split(" ")[0];
+}
 
 function aplicarEstados() {
   const cards = document.querySelectorAll(".ramo");
@@ -127,11 +196,6 @@ function aplicarEstados() {
     card.title = `Estado: ${estado}`;
   });
 }
-
-
-// =========================
-// 5. BLOQUEOS POR PRERREQUISITOS
-// =========================
 
 function aplicarBloqueos() {
   const cards = document.querySelectorAll(".ramo");
@@ -155,18 +219,23 @@ function aplicarBloqueos() {
   });
 }
 
+function actualizarTodo() {
+  aplicarEstados();
+  aplicarBloqueos();
+}
+
 
 // =========================
-// 6. FILTRO DEL MENÚ
+// FILTROS
 // =========================
 
 function aplicarFiltros() {
   const select = document.getElementById("filtro-estado");
   if (!select) return;
 
-  const filtro = select.value; // todos, aprobado, cursando, pendiente, bloqueado
-
+  const filtro = select.value;
   const cards = document.querySelectorAll(".ramo");
+
   cards.forEach(card => {
     const estado = card.dataset.estado || "pendiente";
     const esBloqueado = card.classList.contains("bloqueado");
@@ -185,45 +254,22 @@ function aplicarFiltros() {
 
 
 // =========================
-// 7. GUARDAR / CARGAR / EXPORTAR
+// EXPORTAR / IMPORTAR
 // =========================
 
-function guardarProgresoLocal() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(courseStatus));
-  } catch (e) {
-    console.warn("No se pudo guardar el progreso:", e);
-  }
-}
-
-function cargarProgresoLocal() {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    if (data) {
-      courseStatus = JSON.parse(data);
-    }
-  } catch (e) {
-    console.warn("No se pudo cargar el progreso:", e);
-    courseStatus = {};
-  }
-}
-
-function borrarProgreso() {
-  localStorage.removeItem(STORAGE_KEY);
-  courseStatus = {};
-  actualizarTodo();
-  aplicarFiltros();
-  alert("Progreso borrado en este navegador.");
-}
-
 function exportarProgreso() {
-  const dataStr = JSON.stringify(courseStatus, null, 2);
-  const blob = new Blob([dataStr], { type: "application/json" });
+  const data = {
+    perfil: perfilActual,
+    courseStatus,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "malla_qyf_progreso.json";
+  a.download = `malla_qyf_${perfilActual || "perfil"}.json`;
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -231,49 +277,89 @@ function exportarProgreso() {
   URL.revokeObjectURL(url);
 }
 
-
-// =========================
-// 8. UTILIDAD: sacar código de la card
-// =========================
-
-function obtenerCodigoDesdeCard(card) {
-  const h4 = card.querySelector("h4");
-  if (!h4) return null;
-  // primera palabra del título: "MATO8001 Álgebra pre cálculo"
-  return h4.innerText.trim().split(" ")[0];
+function importarProgreso(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (!data || !data.courseStatus) {
+        alert("Archivo inválido");
+        return;
+      }
+      courseStatus = data.courseStatus;
+      perfiles[perfilActual] = courseStatus;
+      guardarEnPerfiles();
+      actualizarTodo();
+      aplicarFiltros();
+      alert("Progreso importado para el perfil actual.");
+    } catch (e) {
+      console.error(e);
+      alert("No se pudo leer el archivo.");
+    }
+  };
+  reader.readAsText(file);
 }
 
 
 // =========================
-// 9. INICIALIZACIÓN
+// INICIALIZACIÓN
 // =========================
-
-function actualizarTodo() {
-  aplicarEstados();
-  aplicarBloqueos();
-}
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Cargar progreso guardado
-  cargarProgresoLocal();
+  // Cargar perfiles guardados
+  cargarPerfiles();
+  actualizarEtiquetaPerfil();
 
-  // Marcar estado inicial y bloqueos
+  // Aplicar estado inicial
   actualizarTodo();
   aplicarFiltros();
 
-  // Menú
+  // Filtro de estado
   const filtro = document.getElementById("filtro-estado");
   if (filtro) filtro.addEventListener("change", aplicarFiltros);
 
+  // Botones
   const btnGuardar = document.getElementById("btn-guardar");
   if (btnGuardar) btnGuardar.addEventListener("click", () => {
-    guardarProgresoLocal();
-    alert("Progreso guardado en este navegador 👍");
+    guardarEnPerfiles();
+    alert("Progreso guardado para este perfil 👍");
   });
 
   const btnBorrar = document.getElementById("btn-borrar");
-  if (btnBorrar) btnBorrar.addEventListener("click", borrarProgreso);
+  if (btnBorrar) btnBorrar.addEventListener("click", () => {
+    if (!confirm("¿Seguro que quieres borrar el progreso de este perfil?")) return;
+    courseStatus = {};
+    perfiles[perfilActual] = courseStatus;
+    guardarEnPerfiles();
+    actualizarTodo();
+    aplicarFiltros();
+  });
 
   const btnExportar = document.getElementById("btn-exportar");
   if (btnExportar) btnExportar.addEventListener("click", exportarProgreso);
+
+  const btnImportar = document.getElementById("btn-importar");
+  const inputImportar = document.getElementById("input-importar");
+  if (btnImportar && inputImportar) {
+    btnImportar.addEventListener("click", () => inputImportar.click());
+    inputImportar.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (file) importarProgreso(file);
+      inputImportar.value = "";
+    });
+  }
+
+  const btnUsarPerfil = document.getElementById("btn-usar-perfil");
+  if (btnUsarPerfil) {
+    btnUsarPerfil.addEventListener("click", () => {
+      const input = document.getElementById("nombre-perfil");
+      const nombre = (input.value || "").trim();
+      if (!nombre) {
+        alert("Escribe un nombre para el perfil.");
+        return;
+      }
+      cargarDesdePerfiles(nombre);
+      guardarEnPerfiles();
+    });
+  }
 });
