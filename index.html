@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
-
-
 <body>
   <header>
     <h1>Malla Curricular Interactiva</h1>
@@ -29,12 +27,21 @@
     </div>
 
     <div class="control">
+      <label for="nombre-perfil">Perfil:</label>
+      <input id="nombre-perfil" type="text" placeholder="Ej: Fernanda" />
+      <button id="btn-usar-perfil" type="button">Usar perfil</button>
+      <span id="perfil-actual-label"></span>
+    </div>
+
+    <div class="control">
       <button id="btn-guardar" type="button">Guardar progreso</button>
       <button id="btn-borrar" type="button">Borrar progreso</button>
       <button id="btn-exportar" type="button">Exportar avances</button>
+      <button id="btn-importar" type="button">Importar avances</button>
+      <input id="input-importar" type="file" accept="application/json" style="display:none" />
     </div>
   </section>
-  
+
   <main>
 
     <!-- ========== PRIMER AÑO ========== -->
